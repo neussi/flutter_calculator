@@ -84,8 +84,8 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(24.0),
-          primary: Colors.white,
-          onPrimary: Colors.black,
+          primary: Colors.white, // Button background color
+          onPrimary: Colors.black, // Text color
           textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         onPressed: () {
@@ -110,8 +110,8 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(24.0),
-          primary: Colors.red,
-          onPrimary: Colors.white,
+          primary: Colors.red, // Button background color
+          onPrimary: Colors.white, // Text color
           textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         onPressed: () => callback(buttonText),
