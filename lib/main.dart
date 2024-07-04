@@ -13,7 +13,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      icon: Image.asset('assets/l.png'), 
       home: SplashScreen(),
     );
   }
