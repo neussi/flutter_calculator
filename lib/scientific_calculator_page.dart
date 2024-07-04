@@ -1,9 +1,30 @@
 import 'package:flutter/material.dart';
 import 'package:math_expressions/math_expressions.dart';
 
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Scientific Calculator',
+      theme: ThemeData.dark().copyWith(
+        scaffoldBackgroundColor: Colors.black,
+        appBarTheme: AppBarTheme(
+          backgroundColor: Colors.black,
+        ),
+      ),
+      home: ScientificCalculatorPage(),
+    );
+  }
+}
+
 class ScientificCalculatorPage extends StatefulWidget {
   @override
-  _ScientificCalculatorPageState createState() => _ScientificCalculatorPageState();
+  _ScientificCalculatorPageState createState() =>
+      _ScientificCalculatorPageState();
 }
 
 class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
@@ -39,17 +60,47 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
     });
   }
 
+  void addSpecial(String text) {
+    setState(() {
+      if (text == "(" ||
+          text == ")" ||
+          text == "%" ||
+          text == "DEL" ||
+          text == "π" ||
+          text == "Shift") {
+        if (text == "(" || text == ")" || text == "%" || text == "π") {
+          expression += text;
+        } else if (text == "DEL") {
+          expression = expression.substring(0, expression.length - 1);
+        } else if (text == "Shift") {
+          // Implement Shift functionality if needed
+        }
+      }
+    });
+  }
+
   Widget buildButton(String buttonText) {
     return Expanded(
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(24.0),
+          primary: Colors.white,
+          onPrimary: Colors.black,
+          textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
-        onPressed: () => numClick(buttonText),
-        child: Text(
-          buttonText,
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-        ),
+        onPressed: () {
+          if (buttonText == "(" ||
+              buttonText == ")" ||
+              buttonText == "%" ||
+              buttonText == "DEL" ||
+              buttonText == "π" ||
+              buttonText == "Shift") {
+            addSpecial(buttonText);
+          } else {
+            numClick(buttonText);
+          }
+        },
+        child: Text(buttonText),
       ),
     );
   }
@@ -59,12 +110,12 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           padding: EdgeInsets.all(24.0),
+          primary: Colors.red,
+          onPrimary: Colors.white,
+          textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
         ),
         onPressed: () => callback(buttonText),
-        child: Text(
-          buttonText,
-          style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
-        ),
+        child: Text(buttonText),
       ),
     );
   }
@@ -73,7 +124,7 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Calculatrice Scientifique'),
+        title: Text('Scientific Calculator'),
       ),
       body: Column(
         children: <Widget>[
@@ -88,6 +139,7 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
               style: TextStyle(
                 fontSize: 32,
                 fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
           ),
@@ -102,11 +154,14 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
               style: TextStyle(
                 fontSize: 48,
                 fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
           ),
           Expanded(
-            child: Divider(),
+            child: Divider(
+              color: Colors.white,
+            ),
           ),
           Column(
             children: [
@@ -128,10 +183,10 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
               ),
               Row(
                 children: <Widget>[
-                  buildButton("7"),
-                  buildButton("8"),
-                  buildButton("9"),
-                  buildButton("/"),
+                  buildButton("("),
+                  buildButton(")"),
+                  buildButton("%"),
+                  buildAdvancedButton("/", numClick),
                 ],
               ),
               Row(
@@ -139,7 +194,7 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
                   buildButton("4"),
                   buildButton("5"),
                   buildButton("6"),
-                  buildButton("*"),
+                  buildAdvancedButton("*", numClick),
                 ],
               ),
               Row(
@@ -147,7 +202,7 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
                   buildButton("1"),
                   buildButton("2"),
                   buildButton("3"),
-                  buildButton("-"),
+                  buildAdvancedButton("-", numClick),
                 ],
               ),
               Row(
@@ -155,11 +210,12 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
                   buildButton("."),
                   buildButton("0"),
                   buildButton("00"),
-                  buildButton("+"),
+                  buildAdvancedButton("+", numClick),
                 ],
               ),
               Row(
                 children: <Widget>[
+                  buildAdvancedButton("DEL", addSpecial),
                   buildAdvancedButton("AC", allClear),
                   buildAdvancedButton("=", evaluate),
                 ],
