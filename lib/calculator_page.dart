@@ -69,11 +69,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
   Widget buildButton(String buttonText) {
     return Expanded(
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.all(24.0),
-          primary: Colors.white,
-          onPrimary: Colors.black,
-          textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        style: ButtonStyle(
+          padding: MaterialStateProperty.all(EdgeInsets.all(24.0)),
+          backgroundColor: MaterialStateProperty.all(Colors.white),
+          foregroundColor: MaterialStateProperty.all(Colors.black),
+          textStyle: MaterialStateProperty.all(TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold)),
         ),
         onPressed: () => buttonPressed(buttonText),
         child: Text(buttonText),
