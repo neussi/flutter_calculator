@@ -82,11 +82,15 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
   Widget buildButton(String buttonText) {
     return Expanded(
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.all(24.0),
-          primary: Colors.white, // Button background color
-          onPrimary: Colors.black, // Text color
-          textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.white), // Button background color
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.black), // Text color
+          textStyle: MaterialStateProperty.all<TextStyle>(
+            TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+            EdgeInsets.all(24.0),
+          ),
         ),
         onPressed: () {
           if (buttonText == "(" ||
@@ -108,11 +112,15 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
   Widget buildAdvancedButton(String buttonText, Function callback) {
     return Expanded(
       child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.all(24.0),
-          primary: Colors.red, // Button background color
-          onPrimary: Colors.white, // Text color
-          textStyle: TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+        style: ButtonStyle(
+          backgroundColor: MaterialStateProperty.all<Color>(Colors.red), // Button background color
+          foregroundColor: MaterialStateProperty.all<Color>(Colors.white), // Text color
+          textStyle: MaterialStateProperty.all<TextStyle>(
+            TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
+          ),
+          padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+            EdgeInsets.all(24.0),
+          ),
         ),
         onPressed: () => callback(buttonText),
         child: Text(buttonText),
