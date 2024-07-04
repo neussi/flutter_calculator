@@ -8,62 +8,49 @@ class CalculatorPage extends StatefulWidget {
 
 class _CalculatorPageState extends State<CalculatorPage> {
   String output = "0";
-  String _output = "0";
-  double num1 = 0.0;
-  double num2 = 0.0;
-  String operand = "";
   String operation = "";
 
   void buttonPressed(String buttonText) {
     setState(() {
       if (buttonText == "AC") {
-        _output = "0";
-        num1 = 0.0;
-        num2 = 0.0;
-        operand = "";
+        output = "0";
         operation = "";
       } else if (buttonText == "+" || buttonText == "-" || buttonText == "*" || buttonText == "/") {
-        if (operation.isNotEmpty) {
-          _output = "($_output)";
-        }
-        num1 = double.parse(output);
-        operand = buttonText;
-        _output += " $buttonText ";
+        if (output.endsWith(".") || output.isEmpty) return;
         operation += " $buttonText ";
+        output += " $buttonText ";
       } else if (buttonText == ".") {
-        if (_output.contains(".")) {
+        if (output.contains(".")) {
           return;
         } else {
-          _output = _output + buttonText;
-          operation = operation + buttonText;
+          operation += buttonText;
+          output += buttonText;
         }
       } else if (buttonText == "=") {
-        num2 = double.parse(output);
-
-        if (operand == "+") {
-          _output = (num1 + num2).toString();
-        }
-        if (operand == "-") {
-          _output = (num1 - num2).toString();
-        }
-        if (operand == "*") {
-          _output = (num1 * num2).toString();
-        }
-        if (operand == "/") {
-          _output = (num1 / num2).toString();
-        }
-
-        num1 = 0.0;
-        num2 = 0.0;
-        operand = "";
-        operation = "($_output)";
+        if (output.endsWith(" ") || operation.isEmpty) return;
+        output = _evaluateOperation(operation);
+        operation = "($operation)";
       } else {
-        _output = _output + buttonText;
-        operation = operation + buttonText;
+        if (output == "0") {
+          output = buttonText;
+        } else {
+          output += buttonText;
+        }
+        operation += buttonText;
       }
-
-      output = double.parse(_output).toStringAsFixed(2);
     });
+  }
+
+  String _evaluateOperation(String operation) {
+    try {
+      Parser p = Parser();
+      Expression exp = p.parse(operation);
+      ContextModel cm = ContextModel();
+      double eval = exp.evaluate(EvaluationType.REAL, cm);
+      return eval.toStringAsFixed(2);
+    } catch (e) {
+      return "Error";
+    }
   }
 
   Widget buildButton(String buttonText) {

@@ -134,6 +134,7 @@ class _ScientificCalculatorPageState extends State<ScientificCalculatorPage> {
       appBar: AppBar(
         title: Text('Scientific Calculator'),
       ),
+      backgroundColor: Colors.black, // Setting background color of the Scaffold
       body: Column(
         children: <Widget>[
           Container(
